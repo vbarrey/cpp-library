@@ -1,0 +1,14 @@
+# C++
+/backend/build/
+/backend/.vs/
+
+# Node
+/frontend/node_modules/
+/frontend/.next/
+
+# Config sensible
+config.json
+
+# OS
+.DS_Store
+Thumbs.db
