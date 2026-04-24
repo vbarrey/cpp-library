@@ -1,10 +1,11 @@
 # C++
-/backend/build/
+/backend/out/
 /backend/.vs/
 
 # Node
 /frontend/node_modules/
 /frontend/.next/
+/frontend/.env.local
 
 # Config sensible
 config.json

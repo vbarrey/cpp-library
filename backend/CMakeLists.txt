@@ -16,6 +16,6 @@ target_link_libraries(server PRIVATE Crow::Crow nlohmann_json::nlohmann_json lib
 
 add_custom_command(TARGET server POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${CMAKE_CURRENT_SOURCE_DIR}/config.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/../config.json
     $<TARGET_FILE_DIR:server>
 )
