@@ -8,6 +8,13 @@ struct Book {
     std::string author;
 };
 
+struct PaginatedBooks {
+    std::vector<Book> data;
+    int total;
+    int page;
+    int limit;
+};
+
 inline void to_json(nlohmann::json& j, const Book& b) {
     j = nlohmann::json{
         {"id", b.id},

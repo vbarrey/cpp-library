@@ -16,6 +16,23 @@ public:
         return repository->findAll();
     }
 
+    Result<PaginatedBooks> getPaginatedBooks(int page, int limit) {
+        int offset = (page - 1) * limit;
+
+        auto books = repository->findPaginated(limit, offset);
+        if (!books) return std::unexpected(books.error());
+
+        auto total = repository->count();
+        if (!total) return std::unexpected(total.error());
+
+        return PaginatedBooks{
+            books.value(),
+            total.value(),
+            page,
+            limit
+        };
+    }
+
     Result<Book> createBook(const Book& book) {
         auto validation = validate(book);
         if (!validation) {

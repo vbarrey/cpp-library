@@ -13,30 +13,44 @@ public:
     void registerRoutes(crow::SimpleApp& app) {
 
         CROW_ROUTE(app, "/books")
-            ([this]() {
-            auto result = service->getAllBooks();
+            ([this](const crow::request& req) {
+                int page = req.url_params.get("page")
+                    ? std::stoi(req.url_params.get("page"))
+                    : 1;
 
-            if (!result) {
-                return crow::response{ 400, result.error().message };
-            }
+                int limit = req.url_params.get("limit")
+                    ? std::stoi(req.url_params.get("limit"))
+                    : 20;
 
-            return crow::response{ nlohmann::json(result.value()).dump() };
-                });
+                auto result = service->getPaginatedBooks(page, limit);
+
+                if (!result) {
+                    return crow::response{ 500, result.error().message };
+                }
+
+                nlohmann::json res = {
+                    {"data", result->data},
+                    {"total", result->total},
+                    {"page", result->page},
+                    {"limit", result->limit}
+                };
+
+                return crow::response{ res.dump() };
+            });
 
         CROW_ROUTE(app, "/books").methods("POST"_method)
             ([this](const crow::request& req) {
+                auto body = nlohmann::json::parse(req.body);
+                Book b = body.get<Book>();
 
-            auto body = nlohmann::json::parse(req.body);
-            Book b = body.get<Book>();
+                auto result = service->createBook(b);
 
-            auto result = service->createBook(b);
+                if (!result) {
+                    return crow::response{ 400, result.error().message };
+                }
 
-            if (!result) {
-                return crow::response{ 400, result.error().message };
-            }
-
-            return crow::response{ 201, nlohmann::json(result.value()).dump() };
-                });
+                return crow::response{ 201, nlohmann::json(result.value()).dump() };
+            });
     }
 
 private:
