@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { fetchBooks } from "@/lib/api"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function BooksPage({
   searchParams,
@@ -17,13 +18,18 @@ export default async function BooksPage({
     <main className="p-6">
       <h1 className="text-xl font-bold mb-4">Livres</h1>
 
-      <ul className="space-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {result.data.map((b) => (
-          <li key={b.id} className="border p-3 rounded">
-            {b.title} - {b.author}
-          </li>
+          <Card key={b.id}>
+            <CardHeader>
+              <CardTitle>{b.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>{b.author}</p>
+            </CardContent>
+          </Card>
         ))}
-      </ul>
+      </div>
 
       {/* Pagination */}
       <div className="flex gap-2 mt-6">
