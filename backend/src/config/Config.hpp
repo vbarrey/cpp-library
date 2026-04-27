@@ -9,6 +9,11 @@ struct DatabaseConfig {
     std::string password;
 };
 
+struct AuthConfig {
+    std::string jwt_secret;
+};
+
 struct Config {
     DatabaseConfig database;
+    AuthConfig auth;
 };
