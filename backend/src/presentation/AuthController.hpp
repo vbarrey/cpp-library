@@ -35,7 +35,7 @@ public:
             };
 
             return crow::response{ 201, response.dump() };
-                });
+        });
 
         CROW_ROUTE(app, "/auth/login").methods("POST"_method)
             ([this](const crow::request& req) {
@@ -56,14 +56,17 @@ public:
             }
 
             nlohmann::json response = {
-                {"token", result->token}
+                {"id", result->id},
+                {"username", result->username},
+                {"email", result->email},
+                {"role", to_string(result->role)}
             };
 
             return crow::response{
                 200,
                 response.dump()
             };
-                });
+        });
     }
 
 private:

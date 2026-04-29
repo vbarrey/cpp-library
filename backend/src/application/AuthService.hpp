@@ -4,7 +4,6 @@
 #include "../domain/RegisterUserRequest.hpp"
 #include "../domain/LoginUserRequest.hpp"
 #include "../domain/AuthResponse.hpp"
-#include "../security/JwtService.hpp"
 #include "../security/PasswordHasher.hpp"
 #include <memory>
 
@@ -86,14 +85,11 @@ public:
             );
         }
 
-        auto token = JwtService::generate(user);
-
-        if (!token) {
-            return std::unexpected(token.error());
-        }
-
         return AuthResponse{
-            token.value()
+            user.id,
+            user.username,
+            user.email,
+            user.role
         };
     }
 

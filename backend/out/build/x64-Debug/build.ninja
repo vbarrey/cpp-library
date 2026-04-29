@@ -71,17 +71,6 @@ build CMakeFiles\server.dir\src\security\PasswordHasher.cpp.obj: CXX_COMPILER__s
   TARGET_PDB = server.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\server.dir
 
-build CMakeFiles\server.dir\src\security\JwtService.cpp.obj: CXX_COMPILER__server_unscanned_Debug C$:\Users\Victor\Documents\Projet_perso\progC++\cpp-library\backend\src\security\JwtService.cpp || cmake_object_order_depends_target_server
-  CONFIG = Debug
-  DEFINES = -DASIO_NO_DEPRECATED -DJWT_DISABLE_PICOJSON -DPQXX_SHARED -DUSING_ARGON2_DLL -D_WIN32_WINNT=0x0A00
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++latest -MDd
-  INCLUDES = -external:IC:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\include -external:W0
-  OBJECT_DIR = CMakeFiles\server.dir
-  OBJECT_FILE_DIR = CMakeFiles\server.dir\src\security
-  TARGET_COMPILE_PDB = CMakeFiles\server.dir\
-  TARGET_PDB = server.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\server.dir
-
 build CMakeFiles\server.dir\src\config\ConfigLoader.cpp.obj: CXX_COMPILER__server_unscanned_Debug C$:\Users\Victor\Documents\Projet_perso\progC++\cpp-library\backend\src\config\ConfigLoader.cpp || cmake_object_order_depends_target_server
   CONFIG = Debug
   DEFINES = -DASIO_NO_DEPRECATED -DJWT_DISABLE_PICOJSON -DPQXX_SHARED -DUSING_ARGON2_DLL -D_WIN32_WINNT=0x0A00
@@ -101,7 +90,7 @@ build CMakeFiles\server.dir\src\config\ConfigLoader.cpp.obj: CXX_COMPILER__serve
 #############################################
 # Link the executable server.exe
 
-build server.exe: CXX_EXECUTABLE_LINKER__server_Debug CMakeFiles\server.dir\src\main.cpp.obj CMakeFiles\server.dir\src\security\PasswordHasher.cpp.obj CMakeFiles\server.dir\src\security\JwtService.cpp.obj CMakeFiles\server.dir\src\config\ConfigLoader.cpp.obj | C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\pqxx.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\argon2.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\libssl.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\libcrypto.lib
+build server.exe: CXX_EXECUTABLE_LINKER__server_Debug CMakeFiles\server.dir\src\main.cpp.obj CMakeFiles\server.dir\src\security\PasswordHasher.cpp.obj CMakeFiles\server.dir\src\config\ConfigLoader.cpp.obj | C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\pqxx.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\argon2.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\libssl.lib C$:\Users\Victor\AppData\Roaming\vcpkg\installed\x64-windows\debug\lib\libcrypto.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console

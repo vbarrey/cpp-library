@@ -15,7 +15,7 @@ find_package(jwt-cpp CONFIG REQUIRED)
 
 add_compile_definitions(_WIN32_WINNT=0x0A00)
 
-add_executable(server src/main.cpp "src/domain/Book.hpp" "src/security/PasswordHasher.cpp" "src/security/JwtService.cpp" "src/config/ConfigLoader.cpp")
+add_executable(server src/main.cpp "src/domain/Book.hpp" "src/security/PasswordHasher.cpp"  "src/config/ConfigLoader.cpp")
 
 add_compile_options(/std:c++latest)
 

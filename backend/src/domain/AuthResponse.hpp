@@ -1,6 +1,11 @@
 #pragma once
+
 #include <string>
+#include "../domain/Role.hpp"
 
 struct AuthResponse {
-    std::string token;
+    int id;
+    std::string username;
+    std::string email;
+    Role role;
 };
