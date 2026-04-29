@@ -10,7 +10,8 @@ public:
         : service(std::move(service)) {
     }
 
-    void registerRoutes(crow::SimpleApp& app) {
+    template<typename App>
+    void registerRoutes(App& app) {
 
         CROW_ROUTE(app, "/books")
             ([this](const crow::request& req) {

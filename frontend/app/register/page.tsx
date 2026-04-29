@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 import {
+  CheckIcon
+} from "lucide-react"
+
+import {
   Card,
   CardContent,
   CardDescription,
@@ -9,6 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+import {
+  InputGroup,
+  InputGroupInput,
+  InputGroupAddon,
+} from "@/components/ui/input-group";
 
 import {
   Input
@@ -21,6 +31,7 @@ import {
 import {
   Button
 } from "@/components/ui/button";
+import { UsernameField } from "@/components/ui/username-field";
 
 async function registerUser(
   formData: FormData
@@ -76,11 +87,7 @@ export default function RegisterPage() {
                 Pseudo
               </Label>
 
-              <Input
-                id="username"
-                name="username"
-                placeholder="Victor"
-              />
+              <UsernameField />
             </div>
 
             <div className="space-y-2">

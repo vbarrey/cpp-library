@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import Link from "next/link"
 import { signIn } from "@/src/auth";
 

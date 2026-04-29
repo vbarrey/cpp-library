@@ -8,7 +8,8 @@ public:
         : service(std::move(service)) {
     }
 
-    void registerRoutes(crow::SimpleApp& app) {
+    template<typename App>
+    void registerRoutes(App& app) {
         CROW_ROUTE(app, "/auth/register").methods("POST"_method)
             ([this](const crow::request& req) {
 
@@ -35,7 +36,7 @@ public:
             };
 
             return crow::response{ 201, response.dump() };
-        });
+                });
 
         CROW_ROUTE(app, "/auth/login").methods("POST"_method)
             ([this](const crow::request& req) {
@@ -61,6 +62,36 @@ public:
                 {"email", result->email},
                 {"role", to_string(result->role)}
             };
+
+            return crow::response{
+                200,
+                response.dump()
+            };
+                });
+
+        CROW_ROUTE(app, "/auth/check-username")
+            ([this](const crow::request& req) {
+            auto username =
+                req.url_params.get("username");
+
+            if (!username) {
+                return crow::response(
+                    400,
+                    R"({"error":"missing username"})"
+                );
+            }
+
+            auto result = service->isUsernameAvailable(username);
+
+
+            if (!result) {
+                return crow::response{
+                    401,
+                    result.error().message
+                };
+            }
+
+            nlohmann::json response = { {"available", result.value()} };
 
             return crow::response{
                 200,

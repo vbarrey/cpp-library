@@ -6,9 +6,10 @@
 #include "application/BookService.hpp"
 #include "application/AuthService.hpp"
 #include "config/ConfigLoader.hpp"
+#include "config/CorsMiddleware.hpp"
 
 int main() {
-    crow::SimpleApp app;
+    crow::App<CorsMiddleware> app;
 
     auto config = ConfigLoader::load("config.json");
 

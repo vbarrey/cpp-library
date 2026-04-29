@@ -93,6 +93,18 @@ public:
         };
     }
 
+    Result<bool> isUsernameAvailable(const std::string username) {
+        auto userResult = repository->findByUsername(username);
+
+        if (!userResult) {
+            return std::unexpected(userResult.error());
+        }
+
+        auto userOpt = userResult.value();
+
+        return !userOpt.has_value();
+    }
+
 private:
     std::unique_ptr<IUserRepository> repository;
 };

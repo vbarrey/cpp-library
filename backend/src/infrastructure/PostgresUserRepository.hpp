@@ -37,6 +37,35 @@ public :
         }
     }
 
+    Result<std::optional<User>> findByUsername(const std::string username) override {
+        try {
+            pqxx::work txn(connection);
+
+            auto result = txn.exec_params(
+                "SELECT id, username, email, password_hash, role FROM users WHERE username = $1",
+                username
+            );
+
+            if (result.empty()) {
+                return std::nullopt;
+            }
+
+
+            auto row = result[0];
+
+            return User{
+                row["id"].as<int>(),
+                row["username"].as<std::string>(),
+                row["email"].as<std::string>(),
+                row["password_hash"].as<std::string>(),
+                row["role"].as<std::string>() == "admin" ? Role::Admin : Role::User
+            };
+        }
+        catch (const std::exception& e) {
+                return std::unexpected(DomainError{ e.what() });
+        }
+    }
+
     Result<User> create(const User& user) override {
         try {
             pqxx::work txn(connection);
