@@ -1,6 +1,7 @@
 # C++
 /backend/out/
 /backend/.vs/
+/backend/CMakeSettings.json
 
 # Node
 /frontend/node_modules/

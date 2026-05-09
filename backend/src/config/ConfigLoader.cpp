@@ -31,8 +31,5 @@ Config ConfigLoader::load(const std::string& path) {
     config.database.password =
         j["database"]["password"].get<std::string>();
 
-    config.auth.jwt_secret =
-        j["auth"]["jwt_secret"].get<std::string>();
-
     return config;
 }
