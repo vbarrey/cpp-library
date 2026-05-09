@@ -11,7 +11,6 @@ find_package(Crow CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(libpqxx CONFIG REQUIRED)
 find_package(unofficial-argon2 CONFIG REQUIRED)
-find_package(jwt-cpp CONFIG REQUIRED)
 
 add_compile_definitions(_WIN32_WINNT=0x0A00)
 
@@ -24,7 +23,6 @@ target_link_libraries(server PRIVATE
     nlohmann_json::nlohmann_json 
     libpqxx::pqxx
     unofficial::argon2::libargon2
-    jwt-cpp::jwt-cpp
 )
 
 add_custom_command(TARGET server POST_BUILD
