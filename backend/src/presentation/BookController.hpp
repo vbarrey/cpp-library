@@ -26,7 +26,8 @@ public:
                 auto result = service->getPaginatedBooks(page, limit);
 
                 if (!result) {
-                    return crow::response{ 500, result.error().message };
+                    nlohmann::json error = result.error();
+                    return crow::response{ 500, error.dump() };
                 }
 
                 nlohmann::json res = {
@@ -47,7 +48,8 @@ public:
                 auto result = service->createBook(b);
 
                 if (!result) {
-                    return crow::response{ 400, result.error().message };
+                    nlohmann::json error = result.error();
+                    return crow::response{ 400, error.dump()};
                 }
 
                 return crow::response{ 201, nlohmann::json(result.value()).dump() };

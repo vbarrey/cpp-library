@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { AlertDialogDestructive } from "@/components/ui/alert-dialog-destructive";
 
 async function logoutUser() {
   "use server";
@@ -17,6 +18,10 @@ async function logoutUser() {
   await signOut();
 
   redirect("/");
+}
+
+async function deleteUser() {
+  console.log("delete")
 }
 
 export default async function ProfilePage() {
@@ -78,8 +83,17 @@ export default async function ProfilePage() {
             variant="destructive"
             onClick={logoutUser}
           >
-            Sign out
+            Se déconnecter
           </Button>
+
+          <AlertDialogDestructive
+              buttonTitle="Delete Account"
+              dialogTitle="Delete Account"
+              dialogDescription="Are you sure you want to delete your account? This action cannot be undone."
+              dialogCancel="Cancel"
+              dialogAction="Delete"
+              onConfirm={deleteUser}
+          />
         </CardFooter>
       </Card>
     </main>

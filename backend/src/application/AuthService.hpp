@@ -15,15 +15,15 @@ public:
 
     Result<User> registerUser(const RegisterUserRequest& request) {
         if (request.username.empty()) {
-            return std::unexpected(DomainError{ "Username is required" });
+            return std::unexpected(DomainError{ "Un nom d'utilisateur est requis", "username"});
         }
 
         if (request.email.empty()) {
-            return std::unexpected(DomainError{ "Email is required" });
+            return std::unexpected(DomainError{ "Une adresse email est requise", "email"});
         }
 
         if (request.password.size() < 8) {
-            return std::unexpected(DomainError{ "Password too short" });
+            return std::unexpected(DomainError{ "Mot de passe trop court", "password"});
         }
 
         auto existing = repository->findByEmail(request.email);
@@ -33,7 +33,7 @@ public:
         }
 
         if (existing.value().has_value()) {
-            return std::unexpected(DomainError{ "Email already exists" });
+            return std::unexpected(DomainError{ "Un compte est déjà associé à cette email", "email"});
         }
 
         auto hashed = PasswordHasher::hash(request.password);
@@ -64,7 +64,7 @@ public:
 
         if (!userOpt.has_value()) {
             return std::unexpected(
-                DomainError{ "Invalid credentials" }
+                DomainError{ "Aucun profil n'a été trouvé avec cette email", "email"}
             );
         }
 
@@ -81,7 +81,7 @@ public:
 
         if (!verified.value()) {
             return std::unexpected(
-                DomainError{ "Invalid credentials" }
+                DomainError{ "Mot de passe incorect", "password"}
             );
         }
 

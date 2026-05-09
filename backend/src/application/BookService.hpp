@@ -47,10 +47,10 @@ private:
 
     VoidResult validate(const Book& book) {
         if (book.title.empty()) {
-            return std::unexpected(DomainError{ "Title cannot be empty" });
+            return std::unexpected(DomainError{ "Le titre est obligatoire" });
         }
         if (book.author.empty()) {
-            return std::unexpected(DomainError{ "Author cannot be empty" });
+            return std::unexpected(DomainError{ "L'auteur est obligatoire" });
         }
         return {};
     }

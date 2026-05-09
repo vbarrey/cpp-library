@@ -24,7 +24,8 @@ public:
             auto result = service->registerUser(request);
 
             if (!result) {
-                return crow::response{ 400, result.error().message };
+                nlohmann::json error = result.error();
+                return crow::response{ 400, error.dump() };
             }
 
             auto user = result.value();
@@ -50,10 +51,8 @@ public:
             auto result = service->login(request);
 
             if (!result) {
-                return crow::response{
-                    401,
-                    result.error().message
-                };
+                nlohmann::json error = result.error();
+                return crow::response{ 401, error.dump() };
             }
 
             nlohmann::json response = {
@@ -71,8 +70,7 @@ public:
 
         CROW_ROUTE(app, "/auth/check-username")
             ([this](const crow::request& req) {
-            auto username =
-                req.url_params.get("username");
+            auto username = req.url_params.get("username");
 
             if (!username) {
                 return crow::response(
@@ -83,12 +81,9 @@ public:
 
             auto result = service->isUsernameAvailable(username);
 
-
             if (!result) {
-                return crow::response{
-                    401,
-                    result.error().message
-                };
+                nlohmann::json error = result.error();
+                return crow::response{ 401, error.dump() };
             }
 
             nlohmann::json response = { {"available", result.value()} };

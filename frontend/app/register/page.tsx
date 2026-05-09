@@ -1,9 +1,8 @@
+"use client"
+
+import { useState } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-
-import {
-  CheckIcon
-} from "lucide-react"
 
 import {
   Card,
@@ -13,12 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import {
-  InputGroup,
-  InputGroupInput,
-  InputGroupAddon,
-} from "@/components/ui/input-group";
 
 import {
   Input
@@ -33,13 +26,15 @@ import {
 } from "@/components/ui/button";
 import { UsernameField } from "@/components/ui/username-field";
 
-async function registerUser(
-  formData: FormData
-) {
-  "use server";
+export default function RegisterPage() {
+  const [registerError, setRegisterError] = useState("");
 
-  const response = await fetch(
-    "http://localhost:18080/auth/register",
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const registerUser = async(formData: FormData) => {
+    const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
     {
       method: "POST",
       headers: {
@@ -58,15 +53,18 @@ async function registerUser(
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Registration failed"
-    );
+    let res = await response.json();
+    setRegisterError(res.description);
+    switch(res.trigger){
+      case "email":
+        
+    }
+    return;
   }
 
   redirect("/login");
-}
+  }
 
-export default function RegisterPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
@@ -84,7 +82,7 @@ export default function RegisterPage() {
           <CardContent className="space-y-6 pb-6">
             <div className="space-y-2">
               <Label htmlFor="username">
-                Pseudo
+                Pseudo <span className="text-destructive">*</span>
               </Label>
 
               <UsernameField />
@@ -92,28 +90,40 @@ export default function RegisterPage() {
 
             <div className="space-y-2">
               <Label htmlFor="email">
-                Email
+                Email <span className="text-destructive">*</span>
               </Label>
 
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="victor@mail.com"
+                placeholder="your@mail.com"
+                required
+                value={email}
+                onChange={(e)=>{setEmail(e.target.value);}}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">
-                Mot de passe
+                Mot de passe <span className="text-destructive">*</span>
               </Label>
 
               <Input
                 id="password"
                 name="password"
                 type="password"
+                required
+                value={password}
+                onChange={(e)=>{setPassword(e.target.value);}}
               />
             </div>
+
+            {registerError.length>0 && (
+            <div className="text-center">
+              <p className="text-sm text-destructive">{registerError}</p>
+            </div>
+          )}
           </CardContent>
 
           <CardFooter className="flex flex-col gap-4">

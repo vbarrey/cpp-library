@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../domain/Book.hpp"
+#include "../domain/media/Book.hpp"
 #include "../domain/Result.hpp"
 
 class IBookRepository {
