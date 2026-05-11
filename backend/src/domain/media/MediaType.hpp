@@ -2,8 +2,8 @@
 
 enum class MediaType
 {
-    Book,
-    Movie,
-    Series,
-    Game
+    BOOK,
+    MOVIE,
+    SERIE,
+    GAME
 };

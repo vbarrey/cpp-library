@@ -1,7 +1,12 @@
 export type Book = {
-  id: number
-  title: string
+  id: number,
+  title: string,
   author: string
+  isbn: string,
+  page_count: number,
+  publisher: string,
+  coverUrl: string,
+  description: string
 }
 
 export type Paginated<T> = {
@@ -13,14 +18,14 @@ export type Paginated<T> = {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-export async function fetchBooks(page: number = 1, limit: number = 20): Promise<Paginated<Book>> {
+export async function fetchBooks(page: number = 1, limit: number = 21): Promise<Paginated<Book>> {
   const res = await fetch(`${API_URL}/books?page=${page}&limit=${limit}`, { cache: "no-store" });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch books [${res.status} ${res.statusText}]`)
-  }
+    const error = await res.json();
 
-  console.log(res);
+    throw new Error(`Failed to fetch books [${res.status} ${res.statusText}] : ${error.description}`)
+  }
 
   return res.json()
 }

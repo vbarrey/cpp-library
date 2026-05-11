@@ -46,7 +46,7 @@ private:
     std::unique_ptr<IBookRepository> repository;
 
     VoidResult validate(const Book& book) {
-        if (book.title.empty()) {
+        if (book.media.title.empty()) {
             return std::unexpected(DomainError{ "Le titre est obligatoire" });
         }
         if (book.author.empty()) {
