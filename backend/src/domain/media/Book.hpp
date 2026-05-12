@@ -22,6 +22,7 @@ inline void to_json(nlohmann::json& j, const Book& b) {
     j = nlohmann::json{
         {"id", b.media.id},
         {"title", b.media.title},
+        {"type", "BOOK"},
         {"author", b.author},
         {"isbn", b.isbn},
         {"pageCount", b.pageCount},

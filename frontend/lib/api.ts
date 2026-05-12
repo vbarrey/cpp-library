@@ -1,12 +1,18 @@
-export type Book = {
-  id: number,
+export type MediaType = "BOOK" | "MOVIE" | "GAME" | "SERIES";
+
+export type Media = {
+  id: string,
+  type: MediaType,
   title: string,
+  description: string,
+  coverUrl: string,
+}
+
+export type Book = Media & {
   author: string
   isbn: string,
   page_count: number,
   publisher: string,
-  coverUrl: string,
-  description: string
 }
 
 export type Paginated<T> = {
