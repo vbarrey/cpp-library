@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
-project(backend)
+
+project(omnedia-backend)
+
+# =========================================================
+# C++ Configuration
+# =========================================================
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,26 +12,87 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
+add_compile_definitions(_WIN32_WINNT=0x0A00)
+
+add_compile_options(/std:c++latest)
+
+# =========================================================
+# Dependencies
+# =========================================================
+
 find_package(Crow CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(libpqxx CONFIG REQUIRED)
 find_package(unofficial-argon2 CONFIG REQUIRED)
 
-add_compile_definitions(_WIN32_WINNT=0x0A00)
+# =========================================================
+# Domain (headers only for now)
+# =========================================================
 
-add_executable(server src/main.cpp "src/domain/Book.hpp" "src/security/PasswordHasher.cpp"  "src/config/ConfigLoader.cpp")
+add_library(omnedia-domain INTERFACE)
 
-add_compile_options(/std:c++latest)
-
-target_link_libraries(server PRIVATE 
-    Crow::Crow 
-    nlohmann_json::nlohmann_json 
-    libpqxx::pqxx
-    unofficial::argon2::libargon2
+target_include_directories(omnedia-domain INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-add_custom_command(TARGET server POST_BUILD
+# =========================================================
+# Infrastructure
+# =========================================================
+
+add_library(omnedia-infrastructure
+    src/security/PasswordHasher.cpp
+    src/config/ConfigLoader.cpp
+)
+
+target_include_directories(omnedia-infrastructure PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(omnedia-infrastructure PUBLIC
+    libpqxx::pqxx
+    unofficial::argon2::libargon2
+    nlohmann_json::nlohmann_json
+)
+
+# =========================================================
+# API Executable
+# =========================================================
+
+add_executable(omnedia-api
+    src/apps/api/main.cpp
+)
+
+target_link_libraries(omnedia-api PRIVATE
+    Crow::Crow
+    omnedia-domain
+    omnedia-infrastructure
+)
+
+# =========================================================
+# Worker Executable
+# =========================================================
+
+add_executable(omnedia-worker
+    src/apps/worker/main.cpp
+)
+
+target_link_libraries(omnedia-worker PRIVATE
+    omnedia-domain
+    omnedia-infrastructure
+)
+
+# =========================================================
+# Copy config.json after build
+# =========================================================
+
+add_custom_command(TARGET omnedia-api POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${CMAKE_CURRENT_SOURCE_DIR}/../config.json
-    $<TARGET_FILE_DIR:server>
+    $<TARGET_FILE_DIR:omnedia-api>
+)
+
+add_custom_command(TARGET omnedia-worker POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_CURRENT_SOURCE_DIR}/../config.json
+    $<TARGET_FILE_DIR:omnedia-worker>
 )

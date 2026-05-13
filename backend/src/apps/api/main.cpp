@@ -1,24 +1,25 @@
 #include <crow.h>
-#include "presentation/BookController.hpp"
-#include "presentation/MovieController.hpp"
-#include "presentation/GameController.hpp"
-#include "presentation/SeriesController.hpp"
-#include "presentation/AuthController.hpp"
 
-#include "infrastructure/PostgresBookRepository.hpp"
-#include "infrastructure/PostgresMovieRepository.hpp"
-#include "infrastructure/PostgresGameRepository.hpp"
-#include "infrastructure/PostgresSeriesRepository.hpp"
-#include "infrastructure/PostgresUserRepository.hpp"
+#include "../../presentation/BookController.hpp"
+#include "../../presentation/MovieController.hpp"
+#include "../../presentation/GameController.hpp"
+#include "../../presentation/SeriesController.hpp"
+#include "../../presentation/AuthController.hpp"
 
-#include "application/BookService.hpp"
-#include "application/MovieService.hpp"
-#include "application/GameService.hpp"
-#include "application/SeriesService.hpp"
-#include "application/AuthService.hpp"
+#include "../../infrastructure/PostgresBookRepository.hpp"
+#include "../../infrastructure/PostgresMovieRepository.hpp"
+#include "../../infrastructure/PostgresGameRepository.hpp"
+#include "../../infrastructure/PostgresSeriesRepository.hpp"
+#include "../../infrastructure/PostgresUserRepository.hpp"
 
-#include "config/ConfigLoader.hpp"
-#include "config/CorsMiddleware.hpp"
+#include "../../application/BookService.hpp"
+#include "../../application/MovieService.hpp"
+#include "../../application/GameService.hpp"
+#include "../../application/SeriesService.hpp"
+#include "../../application/AuthService.hpp"
+
+#include "../../config/ConfigLoader.hpp"
+#include "../../config/CorsMiddleware.hpp"
 
 int main() {
     crow::App<CorsMiddleware> app;
