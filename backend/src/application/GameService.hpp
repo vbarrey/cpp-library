@@ -5,6 +5,7 @@
 #include "IGameRepository.hpp"
 #include "../domain/DomainError.hpp"
 #include "../domain/Result.hpp"
+#include "../domain/Paginated.hpp"
 
 class GameService {
 public:
@@ -16,7 +17,7 @@ public:
         return repository->findAll();
     }
 
-    Result<PaginatedGames> getPaginatedGames(int page, int limit) {
+    Result<Paginated<Game>> getPaginatedGames(int page, int limit) {
         int offset = (page - 1) * limit;
 
         auto games = repository->findPaginated(limit, offset);
@@ -25,7 +26,7 @@ public:
         auto total = repository->count();
         if (!total) return std::unexpected(total.error());
 
-        return PaginatedGames{
+        return Paginated<Game>{
             games.value(),
             total.value(),
             page,

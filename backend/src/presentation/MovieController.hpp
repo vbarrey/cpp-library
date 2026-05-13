@@ -30,14 +30,7 @@ public:
                 return crow::response{ 500, error.dump() };
             }
 
-            nlohmann::json res = {
-                {"data", result->data},
-                {"total", result->total},
-                {"page", result->page},
-                {"limit", result->limit}
-            };
-
-            return crow::response{ res.dump() };
+            return crow::response{ ((nlohmann::json)result.value()).dump() };
         });
 
         CROW_ROUTE(app, "/movies").methods("POST"_method)

@@ -10,13 +10,6 @@ struct Movie {
     int durationMinutes;
 };
 
-struct PaginatedMovies {
-    std::vector<Movie> data;
-    int total;
-    int page;
-    int limit;
-};
-
 inline void to_json(nlohmann::json& j, const Movie& m) {
     j = nlohmann::json{
         {"id", m.media.id},
@@ -27,7 +20,7 @@ inline void to_json(nlohmann::json& j, const Movie& m) {
         {"rating", m.media.rating},
         {"type", "MOVIE"},
         {"director", m.director},
-        {"durationMinutes", m.durationMinutes}
+        {"duration_minutes", m.durationMinutes}
     };
 }
 
@@ -40,5 +33,5 @@ inline void from_json(const nlohmann::json& j, Movie& m) {
     j.at("rating").get_to(m.media.rating);
     j.at("type").get_to(m.media.type);
     j.at("director").get_to(m.director);
-    j.at("durationMinutes").get_to(m.durationMinutes);
+    j.at("duration_minutes").get_to(m.durationMinutes);
 }

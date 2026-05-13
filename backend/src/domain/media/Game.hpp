@@ -8,14 +8,7 @@ struct Game {
     Media media;
     std::string developer;
     std::string platform;
-    int multiplayer;
-};
-
-struct PaginatedGames {
-    std::vector<Game> data;
-    int total;
-    int page;
-    int limit;
+    bool multiplayer;
 };
 
 inline void to_json(nlohmann::json& j, const Game& g) {

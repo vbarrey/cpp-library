@@ -5,6 +5,7 @@
 #include "IMovieRepository.hpp"
 #include "../domain/DomainError.hpp"
 #include "../domain/Result.hpp"
+#include "../domain/Paginated.hpp"
 
 class MovieService {
 public:
@@ -16,7 +17,7 @@ public:
         return repository->findAll();
     }
 
-    Result<PaginatedMovies> getPaginatedMovies(int page, int limit) {
+    Result<Paginated<Movie>> getPaginatedMovies(int page, int limit) {
         int offset = (page - 1) * limit;
 
         auto movies = repository->findPaginated(limit, offset);
@@ -25,7 +26,7 @@ public:
         auto total = repository->count();
         if (!total) return std::unexpected(total.error());
 
-        return PaginatedMovies{
+        return Paginated<Movie>{
             movies.value(),
             total.value(),
             page,

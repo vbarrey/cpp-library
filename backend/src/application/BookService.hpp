@@ -5,6 +5,7 @@
 #include "IBookRepository.hpp"
 #include "../domain/DomainError.hpp"
 #include "../domain/Result.hpp"
+#include "../domain/Paginated.hpp"
 
 class BookService {
 public:
@@ -16,7 +17,7 @@ public:
         return repository->findAll();
     }
 
-    Result<PaginatedBooks> getPaginatedBooks(int page, int limit) {
+    Result<Paginated<Book>> getPaginatedBooks(int page, int limit) {
         int offset = (page - 1) * limit;
 
         auto books = repository->findPaginated(limit, offset);
@@ -25,7 +26,7 @@ public:
         auto total = repository->count();
         if (!total) return std::unexpected(total.error());
 
-        return PaginatedBooks{
+        return Paginated<Book>{
             books.value(),
             total.value(),
             page,

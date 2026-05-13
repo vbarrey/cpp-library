@@ -11,13 +11,6 @@ struct Book {
     std::string publisher;
 };
 
-struct PaginatedBooks {
-    std::vector<Book> data;
-    int total;
-    int page;
-    int limit;
-};
-
 inline void to_json(nlohmann::json& j, const Book& b) {
     j = nlohmann::json{
         {"id", b.media.id},
@@ -29,7 +22,7 @@ inline void to_json(nlohmann::json& j, const Book& b) {
         {"type", "BOOK"},
         {"author", b.author},
         {"isbn", b.isbn},
-        {"pageCount", b.pageCount},
+        {"page_count", b.pageCount},
         {"publisher", b.publisher}
     };
 }
@@ -44,6 +37,6 @@ inline void from_json(const nlohmann::json& j, Book& b) {
     j.at("type").get_to(b.media.type);
     j.at("author").get_to(b.author);
     j.at("isbn").get_to(b.isbn);
-    j.at("pageCount").get_to(b.pageCount);
+    j.at("page_count").get_to(b.pageCount);
     j.at("publisher").get_to(b.publisher);
 }

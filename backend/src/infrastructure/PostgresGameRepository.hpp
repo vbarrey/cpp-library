@@ -56,7 +56,7 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre
+                    m.genre,
                     m.rating,
                     g.developer,
                     g.platform,
@@ -171,7 +171,7 @@ private:
             }, 
             game_row["developer"].as<std::string>(""),
             game_row["platform"].as<std::string>(""),
-            game_row["multiplayer"].as<int>(0)
+            game_row["multiplayer"].as<bool>(false)
         };
     };
 };

@@ -22,7 +22,7 @@ public:
                     me.title,
                     me.description,
                     me.cover_url,
-                    me.genre
+                    me.genre,
                     me.rating,
                     mo.director,
                     mo.duration_minutes
@@ -55,7 +55,7 @@ public:
                     me.title,
                     me.description,
                     me.cover_url,
-                    me.genre
+                    me.genre,
                     me.rating,
                     mo.director,
                     mo.duration_minutes
