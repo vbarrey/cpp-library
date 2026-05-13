@@ -12,19 +12,19 @@ INSERT INTO media (
 )
 SELECT
     gen_random_uuid(),
-    'MOVIE'::media_type,
-    'Movie ' || i,
-    'Description for movie ' || i,
-    'https://picsum.photos/seed/movie' || i || '/300/450',
+    'SERIES'::media_type,
+    'Series ' || i,
+    'Description for series ' || i,
+    'https://picsum.photos/seed/series' || i || '/300/450',
     CASE
-        WHEN row_number() OVER () % 5 = 0 THEN 'Action'
+        WHEN row_number() OVER () % 5 = 0 THEN 'Drama'
         WHEN row_number() OVER () % 5 = 1 THEN 'Comedy'
-        WHEN row_number() OVER () % 5 = 2 THEN 'Drama'
+        WHEN row_number() OVER () % 5 = 2 THEN 'Action'
         WHEN row_number() OVER () % 5 = 3 THEN 'Horror'
-        ELSE 'Sci-Fi'
+        ELSE 'Romance'
     END,
     (row_number() OVER () % 50) / 10.0 + 5.0,
     CURRENT_DATE - ((i % 3650) * INTERVAL '1 day'),
     NOW(),
     NOW()
-FROM generate_series(1, 150) AS s(i);
+FROM generate_series(1, 100) AS s(i);

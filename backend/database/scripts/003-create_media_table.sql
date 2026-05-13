@@ -4,6 +4,8 @@ CREATE TABLE media (
     title TEXT NOT NULL,
     description TEXT,
     cover_url TEXT,
+    genre TEXT,
+    rating INTEGER,
     release_date DATE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()

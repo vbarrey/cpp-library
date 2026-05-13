@@ -1,16 +1,17 @@
-INSERT INTO movies (
+INSERT INTO series (
     media_id,
     director,
-    duration_minutes
+    seasons
 )
 SELECT
-    m.id,
+    id,
     CASE
         WHEN row_number() OVER () % 4 = 0 THEN 'Director Alpha'
         WHEN row_number() OVER () % 4 = 1 THEN 'Director Beta'
         WHEN row_number() OVER () % 4 = 2 THEN 'Director Gamma'
         ELSE 'Director Delta'
     END,
-    90 + ((row_number() OVER () * 13) % 150)
-FROM media m
-WHERE m.type = 'MOVIE';
+    1 + (row_number() OVER () % 5)
+FROM media
+WHERE type = 'SERIES'
+LIMIT 100;
