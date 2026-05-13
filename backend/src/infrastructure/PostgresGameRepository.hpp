@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../application/IBookRepository.hpp"
+#include "../application/IGameRepository.hpp"
 #include "../domain/Result.hpp"
-#include <pqxx/pqxx>
 #include "../domain/media/MediaType.hpp"
+#include <pqxx/pqxx>
 
-class PostgresBookRepository : public IBookRepository {
+class PostgresGameRepository : public IGameRepository {
 public:
-    explicit PostgresBookRepository(const std::string& connStr)
+    explicit PostgresGameRepository(const std::string& connStr)
         : connection(connStr) {
     }
 
-    Result<std::vector<Book>> findAll() override {
+    Result<std::vector<Game>> findAll() override {
         try {
             pqxx::work txn(connection);
 
@@ -22,31 +22,30 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    m.genre
                     m.rating,
-                    b.author,
-                    b.isbn,
-                    b.page_count,
-                    b.publisher
+                    g.developer,
+                    g.platform,
+                    g.multiplayer
                 FROM media m
-                JOIN books b ON b.media_id = m.id
+                JOIN games g ON g.media_id = m.id
                 ORDER BY m.created_at DESC, m.id DESC
             )");
 
-            std::vector<Book> books;
+            std::vector<Game> games;
 
             for (const auto& row : result) {
-                books.push_back(mapBookRow(row));
+                games.push_back(mapGameRow(row));
             }
 
-            return books;
-        } 
+            return games;
+        }
         catch (const std::exception& e) {
             return std::unexpected(DomainError{ e.what() });
         }
     }
 
-    Result<std::vector<Book>> findPaginated(int limit, int offset) override {
+    Result<std::vector<Game>> findPaginated(int limit, int offset) override {
         try {
             pqxx::work txn(connection);
 
@@ -57,14 +56,13 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    m.genre
                     m.rating,
-                    b.author,
-                    b.isbn,
-                    b.page_count,
-                    b.publisher
+                    g.developer,
+                    g.platform,
+                    g.multiplayer
                 FROM media m
-                JOIN books b ON b.media_id = m.id
+                JOIN games g ON g.media_id = m.id
                 ORDER BY m.created_at DESC, m.id DESC
                 LIMIT $1 
                 OFFSET $2)",
@@ -72,13 +70,13 @@ public:
                 offset
             );
 
-            std::vector<Book> books;
+            std::vector<Game> games;
             for (const auto& row : result) {
-                books.push_back(mapBookRow(row));
+                games.push_back(mapGameRow(row));
             }
 
-            return books;
-        } 
+            return games;
+        }
         catch (const std::exception& e) {
             return std::unexpected(DomainError{ e.what() });
         }
@@ -88,7 +86,7 @@ public:
         try {
             pqxx::work txn(connection);
 
-            auto result = txn.exec("SELECT COUNT(b.media_id) FROM books b INNER JOIN media m ON m.id = b.media_id");
+            auto result = txn.exec("SELECT COUNT(g.media_id) FROM games g INNER JOIN media m ON m.id = g.media_id");
 
             return result[0][0].as<int>();
         }
@@ -97,7 +95,7 @@ public:
         }
     }
 
-    Result<Book> create(const Book& book) override {
+    Result<Game> create(const Game& game) override {
         try {
             pqxx::work txn(connection);
 
@@ -113,7 +111,7 @@ public:
                 )
                 VALUES (
                     gen_random_uuid(),
-                    'BOOK',
+                    'GAME',
                     $1,
                     $2,
                     $3,
@@ -121,38 +119,36 @@ public:
                     $5
                 )
                 RETURNING id)",
-                book.media.title,
-                book.media.description,
-                book.media.coverUrl,
-                book.media.genre,
-                book.media.rating
+                game.media.title,
+                game.media.description,
+                game.media.coverUrl,
+                game.media.genre,
+                game.media.rating
             );
 
             std::string mediaId = mediaResult[0]["id"].as<std::string>();
 
             txn.exec_params(R"(
-                INSERT INTO books (
+                INSERT INTO games (
                     media_id,
-                    author,
-                    isbn,
-                    page_count,
-                    publisher
+                    developer,
+                    platform,
+                    multiplayer
                 )
-                VALUES ($1, $2, $3, $4, $5))",
+                VALUES ($1, $2, $3, $4))",
                 mediaId,
-                book.author,
-                book.isbn,
-                book.pageCount,
-                book.publisher
+                game.developer,
+                game.platform,
+                game.multiplayer
             );
 
             txn.commit();
 
-            Book createdBook = book;
-            createdBook.media.id = mediaId;
-            createdBook.media.type = MediaType::BOOK;
+            Game createdGame = game;
+            createdGame.media.id = mediaId;
+            createdGame.media.type = MediaType::GAME;
 
-            return createdBook;
+            return createdGame;
         }
         catch (const std::exception& e) {
             return std::unexpected(DomainError{ e.what() });
@@ -162,21 +158,20 @@ public:
 private:
     pqxx::connection connection;
 
-    Book mapBookRow(pqxx::row_ref book_row) {
-        return Book{
-                Media{
-                    book_row["id"].as<std::string>(),
-                    MediaType::BOOK,
-                    book_row["title"].as<std::string>(),
-                    book_row["description"].as<std::string>(""),
-                    book_row["cover_url"].as<std::string>(""),
-                    book_row["genre"].as<std::string>(""),
-                    book_row["rating"].as<int>(-1)
-                },
-                book_row["author"].as<std::string>(""),
-                book_row["isbn"].as<std::string>(""),
-                book_row["page_count"].as<int>(0),
-                book_row["publisher"].as<std::string>("")
+    Game mapGameRow(pqxx::row_ref game_row) {
+        return Game{
+            Media{
+                game_row["id"].as<std::string>(),
+                MediaType::GAME,
+                game_row["title"].as<std::string>(),
+                game_row["description"].as<std::string>(""),
+                game_row["cover_url"].as<std::string>(""),
+                game_row["genre"].as<std::string>(""),
+                game_row["rating"].as<int>(-1)
+            }, 
+            game_row["developer"].as<std::string>(""),
+            game_row["platform"].as<std::string>(""),
+            game_row["multiplayer"].as<int>(0)
         };
     };
 };
