@@ -4,11 +4,14 @@ import { useMemo, useState } from "react";
 
 import { motion } from "motion/react";
 
-import { Book, Media } from "@/lib/api";
+import { Book, Game, Media, Movie, Series } from "@/lib/api";
 
 import { computeLayout } from "./compute-layout";
 import { useGridCols } from "./use-grid-cols";
 import { BookContent } from "./child/book-content";
+import { GameContent } from "./child/game-content";
+import { MovieContent } from "./child/movie-content";
+import { SeriesContent } from "./child/series-content";
 
 type Props = {
     medias: Media[];
@@ -83,8 +86,6 @@ export default function MediaGrid({
         >
 
             {medias.map((media) => {
-
-                console.log("media", media);
 
                 const layout =
                     layouts.find(
@@ -201,6 +202,9 @@ export default function MediaGrid({
                                 {/* CONTENT */}
 
                                 {media.type === "BOOK" && <BookContent book={media as Book} expanded={expanded} />}
+                                {media.type === "MOVIE" && <MovieContent movie={media as Movie} expanded={expanded} />}
+                                {media.type === "GAME" && <GameContent game={media as Game} expanded={expanded} />}
+                                {media.type === "SERIES" && <SeriesContent series={media as Series} expanded={expanded} />}
 
                             </div>
 

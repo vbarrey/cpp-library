@@ -111,6 +111,69 @@ export default function RootLayout({
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Jeux</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="w-[400px] gap-3 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/games" className="block space-y-1 rounded-md p-3">
+                            <div className="flex flex-col gap-1 text-sm">
+                              <div className="text-sm font-medium">
+                                Voir tous les jeux
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                Consultez la liste complète de nos jeux
+                              </p>
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Films</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="w-[400px] gap-3 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/movies" className="block space-y-1 rounded-md p-3">
+                            <div className="flex flex-col gap-1 text-sm">
+                              <div className="text-sm font-medium">
+                                Voir tous les films
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                Consultez la liste complète de nos films
+                              </p>
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Séries</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="w-[400px] gap-3 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/series" className="block space-y-1 rounded-md p-3">
+                            <div className="flex flex-col gap-1 text-sm">
+                              <div className="text-sm font-medium">
+                                Voir toutes les séries
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                Consultez la liste complète de nos séries
+                              </p>
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>

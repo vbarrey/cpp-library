@@ -1,22 +1,22 @@
 "use client";
 
-import { Book } from "@/lib/api";
+import { Game } from "@/lib/api";
 import { motion } from "motion/react";
 
 type Props = {
-    book: Book,
+    game: Game,
     expanded: boolean,
 }
 
-export function BookContent({ book, expanded }: Props) {
+export function GameContent({ game, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
             <h2 className="font-bold truncate">
-                {book.title}
+                {game.title}
             </h2>
 
             <p className="text-sm text-muted-foreground">
-                {book.author}
+                {game.developer}
             </p>
 
             {expanded && (
@@ -38,11 +38,15 @@ export function BookContent({ book, expanded }: Props) {
                 >
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {book.description}
+                        {game.description}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {book.page_count} pages
+                        {game.platform}
+                    </p>
+
+                    <p className="mt-4 text-sm leading-relaxed">
+                        {game.multiplayer ? "Multiplayer" : "Single player"}
                     </p>
                 </motion.div>
             )}

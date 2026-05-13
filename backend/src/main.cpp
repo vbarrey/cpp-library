@@ -2,16 +2,19 @@
 #include "presentation/BookController.hpp"
 #include "presentation/MovieController.hpp"
 #include "presentation/GameController.hpp"
+#include "presentation/SeriesController.hpp"
 #include "presentation/AuthController.hpp"
 
 #include "infrastructure/PostgresBookRepository.hpp"
 #include "infrastructure/PostgresMovieRepository.hpp"
 #include "infrastructure/PostgresGameRepository.hpp"
+#include "infrastructure/PostgresSeriesRepository.hpp"
 #include "infrastructure/PostgresUserRepository.hpp"
 
 #include "application/BookService.hpp"
 #include "application/MovieService.hpp"
 #include "application/GameService.hpp"
+#include "application/SeriesService.hpp"
 #include "application/AuthService.hpp"
 
 #include "config/ConfigLoader.hpp"
@@ -37,6 +40,9 @@ int main() {
     
     auto gameRepo = std::make_unique<PostgresGameRepository>(connStr);
     auto gameService = std::make_unique<GameService>(std::move(gameRepo));
+    
+    auto seriesRepo = std::make_unique<PostgresSeriesRepository>(connStr);
+    auto seriesService = std::make_unique<SeriesService>(std::move(seriesRepo));
 
     auto userRepo = std::make_unique<PostgresUserRepository>(connStr);
     auto authService = std::make_unique<AuthService>(std::move(userRepo));
@@ -52,6 +58,9 @@ int main() {
 
     GameController gameController(std::move(gameService));
     gameController.registerRoutes(app);
+    
+    SeriesController seriesController(std::move(seriesService));
+    seriesController.registerRoutes(app);
 
     app.port(18080).multithreaded().run();
 }

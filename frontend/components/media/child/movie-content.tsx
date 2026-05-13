@@ -1,22 +1,22 @@
 "use client";
 
-import { Book } from "@/lib/api";
+import { Movie } from "@/lib/api";
 import { motion } from "motion/react";
 
 type Props = {
-    book: Book,
+    movie: Movie,
     expanded: boolean,
 }
 
-export function BookContent({ book, expanded }: Props) {
+export function MovieContent({ movie, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
             <h2 className="font-bold truncate">
-                {book.title}
+                {movie.title}
             </h2>
 
             <p className="text-sm text-muted-foreground">
-                {book.author}
+                {movie.director}
             </p>
 
             {expanded && (
@@ -38,11 +38,11 @@ export function BookContent({ book, expanded }: Props) {
                 >
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {book.description}
+                        {movie.description}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {book.page_count} pages
+                        {movie.duration_minutes} minutes
                     </p>
                 </motion.div>
             )}
