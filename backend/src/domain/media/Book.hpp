@@ -17,7 +17,7 @@ inline void to_json(nlohmann::json& j, const Book& b) {
         {"title", b.media.title},
         {"coverUrl", b.media.coverUrl},
         {"description", b.media.description},
-        {"genre", b.media.genre},
+        {"genres", b.media.genres},
         {"rating", b.media.rating},
         {"type", "BOOK"},
         {"author", b.author},
@@ -32,7 +32,6 @@ inline void from_json(const nlohmann::json& j, Book& b) {
     j.at("title").get_to(b.media.title);
     j.at("coverUrl").get_to(b.media.coverUrl);
     j.at("description").get_to(b.media.description);
-    j.at("genre").get_to(b.media.genre);
     j.at("rating").get_to(b.media.rating);
     j.at("type").get_to(b.media.type);
     j.at("author").get_to(b.author);

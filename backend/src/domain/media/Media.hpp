@@ -2,6 +2,7 @@
 
 #include <string>
 #include "MediaType.hpp"
+#include "Genre.hpp"
 
 struct Media {
     std::string id;
@@ -9,6 +10,6 @@ struct Media {
     std::string title;
     std::string description;
     std::string coverUrl;
-    std::string genre;
+    std::vector<Genre> genres;
     int rating;
 };

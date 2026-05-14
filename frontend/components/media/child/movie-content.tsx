@@ -2,6 +2,7 @@
 
 import { Movie } from "@/lib/api";
 import { motion } from "motion/react";
+import { GenresList } from "./genres-list";
 
 type Props = {
     movie: Movie,
@@ -18,6 +19,8 @@ export function MovieContent({ movie, expanded }: Props) {
             <p className="text-sm text-muted-foreground">
                 {movie.director}
             </p>
+            
+            <GenresList genres={movie.genres} />
 
             {expanded && (
 

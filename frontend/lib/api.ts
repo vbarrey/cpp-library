@@ -1,11 +1,17 @@
 export type MediaType = "BOOK" | "MOVIE" | "GAME" | "SERIES";
 
+export type Genre = {
+  id: string,
+  name: string,
+}
+
 export type Media = {
   id: string,
   type: MediaType,
   title: string,
   description: string,
   coverUrl: string,
+  genres: Genre[],
 }
 
 export type Book = Media & {
@@ -47,6 +53,18 @@ export async function fetchBooks(page: number = 1, limit: number = 84): Promise<
     const error = await res.json();
 
     throw new Error(`Failed to fetch books [${res.status} ${res.statusText}] : ${error.description}`)
+  }
+
+  return res.json()
+}
+
+export async function fetchBookGenre(): Promise<Genre[]> {
+  const res = await fetch(`${API_URL}/books/genres`, { cache: "no-store" });
+
+  if (!res.ok) {
+    const error = await res.json();
+
+    throw new Error(`Failed to fetch book genres [${res.status} ${res.statusText}] : ${error.description}`)
   }
 
   return res.json()

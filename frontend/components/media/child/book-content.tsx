@@ -2,6 +2,7 @@
 
 import { Book } from "@/lib/api";
 import { motion } from "motion/react";
+import { GenresList } from "./genres-list";
 
 type Props = {
     book: Book,
@@ -18,6 +19,8 @@ export function BookContent({ book, expanded }: Props) {
             <p className="text-sm text-muted-foreground">
                 {book.author}
             </p>
+
+            <GenresList genres={book.genres} />
 
             {expanded && (
 

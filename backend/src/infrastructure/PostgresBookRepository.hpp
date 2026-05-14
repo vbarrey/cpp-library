@@ -1,9 +1,10 @@
 #pragma once
 
+#include <pqxx/pqxx>
 #include "../application/IBookRepository.hpp"
 #include "../domain/Result.hpp"
-#include <pqxx/pqxx>
 #include "../domain/media/MediaType.hpp"
+#include "../domain/media/Genre.hpp"
 
 class PostgresBookRepository : public IBookRepository {
 public:
@@ -22,14 +23,27 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
                     m.rating,
+                    
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'id', g.id,
+                                'name', g.name
+                            )
+                        ) FILTER (WHERE g.id IS NOT NULL),
+                        '[]'
+                    ) as genres,
+
                     b.author,
                     b.isbn,
                     b.page_count,
                     b.publisher
                 FROM media m
                 JOIN books b ON b.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres g ON mg.genre_id = g.id
+                GROUP BY m.id, b.media_id
                 ORDER BY m.created_at DESC, m.id DESC
             )");
 
@@ -57,7 +71,17 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'id', g.id,
+                                'name', g.name
+                            )
+                        ) FILTER (WHERE g.id IS NOT NULL),
+                        '[]'
+                    ) as genres,
+
                     m.rating,
                     b.author,
                     b.isbn,
@@ -65,6 +89,9 @@ public:
                     b.publisher
                 FROM media m
                 JOIN books b ON b.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres g ON mg.genre_id = g.id
+                GROUP BY m.id, b.media_id
                 ORDER BY m.created_at DESC, m.id DESC
                 LIMIT $1 
                 OFFSET $2)",
@@ -108,7 +135,6 @@ public:
                     title,
                     description,
                     cover_url,
-                    genre,
                     rating
                 )
                 VALUES (
@@ -117,14 +143,12 @@ public:
                     $1,
                     $2,
                     $3,
-                    $4,
-                    $5
+                    $4
                 )
                 RETURNING id)",
                 book.media.title,
                 book.media.description,
                 book.media.coverUrl,
-                book.media.genre,
                 book.media.rating
             );
 
@@ -170,7 +194,7 @@ private:
                     book_row["title"].as<std::string>(),
                     book_row["description"].as<std::string>(""),
                     book_row["cover_url"].as<std::string>(""),
-                    book_row["genre"].as<std::string>(""),
+                    Genre::mapGenreRow(book_row),
                     book_row["rating"].as<int>(-1)
                 },
                 book_row["author"].as<std::string>(""),

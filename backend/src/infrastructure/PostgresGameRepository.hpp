@@ -3,6 +3,7 @@
 #include "../application/IGameRepository.hpp"
 #include "../domain/Result.hpp"
 #include "../domain/media/MediaType.hpp"
+#include "../domain/media/Genre.hpp"
 #include <pqxx/pqxx>
 
 class PostgresGameRepository : public IGameRepository {
@@ -22,13 +23,26 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre
+                    
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'id', ge.id,
+                                'name', ge.name
+                            )
+                        ) FILTER (WHERE ge.id IS NOT NULL),
+                        '[]'
+                    ) as genres,
+
                     m.rating,
                     g.developer,
                     g.platform,
                     g.multiplayer
                 FROM media m
                 JOIN games g ON g.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres ge ON mg.genre_id = ge.id
+                GROUP BY m.id, g.media_id
                 ORDER BY m.created_at DESC, m.id DESC
             )");
 
@@ -56,13 +70,26 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'id', ge.id,
+                                'name', ge.name
+                            )
+                        ) FILTER (WHERE ge.id IS NOT NULL),
+                        '[]'
+                    ) as genres,
+
                     m.rating,
                     g.developer,
                     g.platform,
                     g.multiplayer
                 FROM media m
                 JOIN games g ON g.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres ge ON mg.genre_id = ge.id
+                GROUP BY m.id, g.media_id
                 ORDER BY m.created_at DESC, m.id DESC
                 LIMIT $1 
                 OFFSET $2)",
@@ -106,7 +133,6 @@ public:
                     title,
                     description,
                     cover_url,
-                    genre,
                     rating
                 )
                 VALUES (
@@ -115,14 +141,12 @@ public:
                     $1,
                     $2,
                     $3,
-                    $4,
-                    $5
+                    $4
                 )
                 RETURNING id)",
                 game.media.title,
                 game.media.description,
                 game.media.coverUrl,
-                game.media.genre,
                 game.media.rating
             );
 
@@ -166,7 +190,7 @@ private:
                 game_row["title"].as<std::string>(),
                 game_row["description"].as<std::string>(""),
                 game_row["cover_url"].as<std::string>(""),
-                game_row["genre"].as<std::string>(""),
+                Genre::mapGenreRow(game_row),
                 game_row["rating"].as<int>(-1)
             }, 
             game_row["developer"].as<std::string>(""),

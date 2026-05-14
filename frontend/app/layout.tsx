@@ -82,13 +82,13 @@ export default function RootLayout({
                       </li>
                       <li>
                         <NavigationMenuLink asChild>
-                          <Link href="/categories" className="block space-y-1 rounded-md p-3">
+                          <Link href="/books/genres" className="block space-y-1 rounded-md p-3">
                             <div className="flex flex-col gap-1 text-sm">
                               <div className="text-sm font-medium">
-                                Voir toutes les catégories
+                                Voir les genres
                               </div>
                               <p className="text-sm text-muted-foreground">
-                                Consultez la liste complète de nos livres classés par catégorie
+                                Consultez la liste complète de nos livres classés par genres
                               </p>
                             </div>
                           </Link>

@@ -18,7 +18,7 @@ inline void to_json(nlohmann::json& j, const Game& g) {
         {"coverUrl", g.media.coverUrl},
         {"description", g.media.description},
         {"rating", g.media.rating},
-        {"genre", g.media.genre},
+        {"genres", g.media.genres},
         {"type", "GAME"},
         {"developer", g.developer},
         {"platform", g.platform},
@@ -32,7 +32,6 @@ inline void from_json(const nlohmann::json& j, Game& g) {
     j.at("title").get_to(g.media.title);
     j.at("description").get_to(g.media.description);
     j.at("coverUrl").get_to(g.media.coverUrl);
-    j.at("genre").get_to(g.media.genre);
     j.at("rating").get_to(g.media.rating);
     j.at("developer").get_to(g.developer);
     j.at("platform").get_to(g.platform);

@@ -3,6 +3,7 @@
 #include "../application/ISeriesRepository.hpp"
 #include "../domain/Result.hpp"
 #include "../domain/media/MediaType.hpp"
+#include "../domain/media/Genre.hpp"
 #include <pqxx/pqxx>
 
 class PostgresSeriesRepository : public ISeriesRepository {
@@ -22,12 +23,25 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    
+                    COALESCE(
+                        json_agg(
+                             json_build_object(
+                                 'id', g.id,
+                                 'name', g.name
+                             )
+                         ) FILTER (WHERE g.id IS NOT NULL),
+                         '[]'
+                     ) as genres,
+
                     m.rating,
                     s.director,
                     s.seasons
                 FROM media m
                 JOIN series s ON s.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres g ON mg.genre_id = g.id
+                GROUP BY m.id, s.media_id
                 ORDER BY m.created_at DESC, m.id DESC
             )");
 
@@ -55,12 +69,25 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
-                    m.genre,
+                    
+                     COALESCE(
+                         json_agg(
+                             json_build_object(
+                                 'id', g.id,
+                                 'name', g.name
+                             )
+                         ) FILTER (WHERE g.id IS NOT NULL),
+                         '[]'
+                     ) as genres,
+
                     m.rating,
                     s.director,
                     s.seasons
                 FROM media m
                 JOIN series s ON s.media_id = m.id
+                LEFT JOIN media_genres mg ON mg.media_id = m.id
+                LEFT JOIN genres g ON mg.genre_id = g.id
+                GROUP BY m.id, s.media_id
                 ORDER BY m.created_at DESC, m.id DESC
                 LIMIT $1 
                 OFFSET $2)",
@@ -104,7 +131,6 @@ public:
                     title,
                     description,
                     cover_url,
-                    genre,
                     rating
                 )
                 VALUES (
@@ -113,14 +139,12 @@ public:
                     $1,
                     $2,
                     $3,
-                    $4,
-                    $5
+                    $4
                 )
                 RETURNING id)",
                 series.media.title,
                 series.media.description,
                 series.media.coverUrl,
-                series.media.genre,
                 series.media.rating
             );
 
@@ -162,7 +186,7 @@ private:
                 series_row["title"].as<std::string>(),
                 series_row["description"].as<std::string>(""),
                 series_row["cover_url"].as<std::string>(""),
-                series_row["genre"].as<std::string>(""),
+                Genre::mapGenreRow(series_row),
                 series_row["rating"].as<int>(-1)
             },
             series_row["director"].as<std::string>(""),
