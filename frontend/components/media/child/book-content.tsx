@@ -3,6 +3,7 @@
 import { Book } from "@/lib/api";
 import { motion } from "motion/react";
 import { GenresList } from "./genres-list";
+import { cn } from "@/lib/utils";
 
 type Props = {
     book: Book,
@@ -12,15 +13,15 @@ type Props = {
 export function BookContent({ book, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
-            <h2 className="font-bold truncate">
+            <h2 className={cn("font-bold truncate", expanded ? "text-5xl" : "text-base")}>
                 {book.title}
             </h2>
 
-            <p className="text-sm text-muted-foreground">
+            <p className={cn("text-sm text-muted-foreground", expanded ? "text-lg" : "text-sm")}>
                 {book.author}
             </p>
 
-            <GenresList genres={book.genres} />
+            <GenresList genres={book.genres} mediaId={book.id} />
 
             {expanded && (
 

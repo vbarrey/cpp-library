@@ -1,4 +1,5 @@
 import { isMediaType, fetchAllGenres, fetchGenreByMediaType, MediaType, Genre, Paginated } from "@/lib/api";
+import GenreCard from "@/components/genre-card";
 
 export default async function GenresPage({ searchParams }: { searchParams: Promise<{ mediaType?: string }> }) {
     const { mediaType } = await searchParams;
@@ -15,16 +16,15 @@ export default async function GenresPage({ searchParams }: { searchParams: Promi
         result = await fetchAllGenres();
     }
 
-    console.log(result);
-
     return (
         <div>
-            <h1>Genres</h1>
-            <ul>
+            <h1 className="text-4xl font-bold mb-4">Genres</h1>
+
+            <div className="grid grid-cols-3 gap-4">
                 {result.data.map((genre) => (
-                    <li key={genre.id}>{genre.name}</li>
+                    <GenreCard key={genre.id} genre={genre} />
                 ))}
-            </ul>
+            </div>
         </div>
     );
 }

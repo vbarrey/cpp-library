@@ -1,26 +1,13 @@
 import { Genre } from "@/lib/api";
+import { Badge } from "@/components/ui/badge";
 
-export function GenresList({ genres }: { genres: Genre[] }) {
+export function GenresList({ genres, mediaId }: { genres: Genre[], mediaId: string }) {
     return (
         <div className="flex gap-2 pt-2">
             {genres && genres.map((genre) => (
-                <span 
-                    key={genre.id}
-                    className="
-                    inline-flex 
-                    items-center 
-                    rounded-md 
-                    bg-gray-50
-                    px-2 
-                    py-1 
-                    text-xs 
-                    font-medium 
-                    text-gray-600 
-                    inset-ring 
-                    inset-ring-gray-500/10
-                ">
+                <Badge key={`${mediaId}-${genre.id}`} variant="secondary">
                     {genre.name}
-                </span>
+                </Badge>
             ))}
         </div>
     );

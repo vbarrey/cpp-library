@@ -21,7 +21,7 @@ export function SeriesContent({ series, expanded }: Props) {
                 {series.director}
             </p>
             
-            <GenresList genres={series.genres} />
+            <GenresList genres={series.genres} mediaId={series.id} />
 
             {expanded && (
 
