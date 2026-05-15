@@ -82,7 +82,7 @@ export default function RootLayout({
                       </li>
                       <li>
                         <NavigationMenuLink asChild>
-                          <Link href="/books/genres" className="block space-y-1 rounded-md p-3">
+                          <Link href="/genres?mediaType=BOOK" className="block space-y-1 rounded-md p-3">
                             <div className="flex flex-col gap-1 text-sm">
                               <div className="text-sm font-medium">
                                 Voir les genres

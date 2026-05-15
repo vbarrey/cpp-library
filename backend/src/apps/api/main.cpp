@@ -4,18 +4,21 @@
 #include "../../presentation/MovieController.hpp"
 #include "../../presentation/GameController.hpp"
 #include "../../presentation/SeriesController.hpp"
+#include "../../presentation/GenreController.hpp"
 #include "../../presentation/AuthController.hpp"
 
 #include "../../infrastructure/PostgresBookRepository.hpp"
 #include "../../infrastructure/PostgresMovieRepository.hpp"
 #include "../../infrastructure/PostgresGameRepository.hpp"
 #include "../../infrastructure/PostgresSeriesRepository.hpp"
+#include "../../infrastructure/PostgresGenreRepository.hpp"
 #include "../../infrastructure/PostgresUserRepository.hpp"
 
 #include "../../application/BookService.hpp"
 #include "../../application/MovieService.hpp"
 #include "../../application/GameService.hpp"
 #include "../../application/SeriesService.hpp"
+#include "../../application/GenreService.hpp"
 #include "../../application/AuthService.hpp"
 
 #include "../../config/ConfigLoader.hpp"
@@ -48,6 +51,9 @@ int main() {
     auto userRepo = std::make_unique<PostgresUserRepository>(connStr);
     auto authService = std::make_unique<AuthService>(std::move(userRepo));
 
+    auto genreRepo = std::make_unique<PostgresGenreRepository>(connStr);
+    auto genreService = std::make_unique<GenreService>(std::move(genreRepo));
+
     AuthController authController(std::move(authService));
     authController.registerRoutes(app);
 
@@ -62,6 +68,9 @@ int main() {
     
     SeriesController seriesController(std::move(seriesService));
     seriesController.registerRoutes(app);
+
+    GenreController genreController(std::move(genreService));
+    genreController.registerRoutes(app);
 
     app.port(18080).multithreaded().run();
 }
