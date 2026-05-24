@@ -25,6 +25,7 @@ export type Media = {
   description: string,
   coverUrl: string,
   genres: Genre[],
+  rating: number,
 }
 
 export type Book = Media & {
