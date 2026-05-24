@@ -42,5 +42,7 @@ inline std::string mediaTypeToString(const MediaType& mediaType)
         return "MOVIE";
     case MediaType::SERIES:
         return "SERIES";
+    default:
+        return "";
     }
 }

@@ -31,5 +31,8 @@ Config ConfigLoader::load(const std::string& path) {
     config.database.password =
         j["database"]["password"].get<std::string>();
 
+    config.tmdb.api_key =
+        j["tmdb"]["api_key"].get<std::string>();
+
     return config;
 }

@@ -191,7 +191,7 @@ private:
                 game_row["description"].as<std::string>(""),
                 game_row["cover_url"].as<std::string>(""),
                 Genre::mapGenreRow(game_row),
-                game_row["rating"].as<int>(-1)
+                game_row["rating"].as<double>(-1)
             }, 
             game_row["developer"].as<std::string>(""),
             game_row["platform"].as<std::string>(""),

@@ -187,7 +187,7 @@ private:
                 series_row["description"].as<std::string>(""),
                 series_row["cover_url"].as<std::string>(""),
                 Genre::mapGenreRow(series_row),
-                series_row["rating"].as<int>(-1)
+                series_row["rating"].as<double>(-1)
             },
             series_row["director"].as<std::string>(""),
             series_row["seasons"].as<int>(0)

@@ -24,6 +24,7 @@ find_package(Crow CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(libpqxx CONFIG REQUIRED)
 find_package(unofficial-argon2 CONFIG REQUIRED)
+find_package(cpr CONFIG REQUIRED)
 
 # =========================================================
 # Domain (headers only for now)
@@ -69,6 +70,22 @@ target_link_libraries(omnedia-api PRIVATE
 )
 
 # =========================================================
+# TMDb Client
+# =========================================================
+
+add_library(omnedia-tmdb
+    "src/integrations/tmdb/clients/TMDbClient.cpp"
+)
+
+target_include_directories(omnedia-tmdb PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(omnedia-tmdb PUBLIC
+    cpr::cpr
+)
+
+# =========================================================
 # Worker Executable
 # =========================================================
 
@@ -79,6 +96,7 @@ add_executable(omnedia-worker
 target_link_libraries(omnedia-worker PRIVATE
     omnedia-domain
     omnedia-infrastructure
+    omnedia-tmdb
 )
 
 # =========================================================

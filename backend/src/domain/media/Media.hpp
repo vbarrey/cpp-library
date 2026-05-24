@@ -11,5 +11,5 @@ struct Media {
     std::string description;
     std::string coverUrl;
     std::vector<Genre> genres;
-    int rating;
+    double rating;
 };

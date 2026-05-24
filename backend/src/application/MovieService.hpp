@@ -34,7 +34,7 @@ public:
         };
     }
 
-    Result<Movie> createMovie(const Movie& movie) {
+    Result<Movie> createMovie(const CreateMovieDTO& movie) {
         auto validation = validate(movie);
         if (!validation) {
             return std::unexpected(validation.error());
@@ -46,7 +46,7 @@ public:
 private:
     std::unique_ptr<IMovieRepository> repository;
 
-    VoidResult validate(const Movie& movie) {
+    VoidResult validate(const CreateMovieDTO& movie) {
         if (movie.media.title.empty()) {
             return std::unexpected(DomainError{ "Le titre est obligatoire" });
         }

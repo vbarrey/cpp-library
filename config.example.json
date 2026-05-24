@@ -5,5 +5,8 @@
     "name": "your_database_name",
     "user": "your_username",
     "password": "your_password"
+  },
+  "tmdb": {
+    "api_key": "your_tmdb_api_key"
   }
 }

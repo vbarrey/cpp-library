@@ -195,7 +195,7 @@ private:
                     book_row["description"].as<std::string>(""),
                     book_row["cover_url"].as<std::string>(""),
                     Genre::mapGenreRow(book_row),
-                    book_row["rating"].as<int>(-1)
+                    book_row["rating"].as<double>(-1)
                 },
                 book_row["author"].as<std::string>(""),
                 book_row["isbn"].as<std::string>(""),

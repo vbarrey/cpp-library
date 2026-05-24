@@ -36,7 +36,7 @@ public:
         CROW_ROUTE(app, "/movies").methods("POST"_method)
             ([this](const crow::request& req) {
             auto body = nlohmann::json::parse(req.body);
-            Movie m = body.get<Movie>();
+            auto m = body.get<CreateMovieDTO>();
 
             auto result = service->createMovie(m);
 
