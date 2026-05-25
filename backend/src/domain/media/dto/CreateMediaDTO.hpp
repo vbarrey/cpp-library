@@ -25,6 +25,9 @@ struct CreateMediaDTO {
             description,
             coverUrl,
             genres,
+            releaseDate.value_or(""),
+            "",
+            "",
             rating
         };
     };

@@ -23,6 +23,10 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
+                    m.rating,
+                    m.release_date,
+                    m.created_at,
+                    m.updated_at,
                     
                     COALESCE(
                         json_agg(
@@ -34,7 +38,6 @@ public:
                         '[]'
                     ) as genres,
 
-                    m.rating,
                     g.developer,
                     g.platform,
                     g.multiplayer
@@ -191,6 +194,9 @@ private:
                 game_row["description"].as<std::string>(""),
                 game_row["cover_url"].as<std::string>(""),
                 Genre::mapGenreRow(game_row),
+                game_row["release_date"].as<std::string>(""),
+                game_row["created_at"].as<std::string>(""),
+                game_row["updated_at"].as<std::string>(""),
                 game_row["rating"].as<double>(-1)
             }, 
             game_row["developer"].as<std::string>(""),

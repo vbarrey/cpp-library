@@ -23,6 +23,10 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
+                    m.rating,
+                    m.release_date,
+                    m.created_at,
+                    m.updated_at,
                     
                     COALESCE(
                         json_agg(
@@ -34,7 +38,6 @@ public:
                          '[]'
                      ) as genres,
 
-                    m.rating,
                     s.director,
                     s.seasons
                 FROM media m
@@ -69,6 +72,10 @@ public:
                     m.title,
                     m.description,
                     m.cover_url,
+                    m.rating,
+                    m.release_date,
+                    m.created_at,
+                    m.updated_at,
                     
                      COALESCE(
                          json_agg(
@@ -80,7 +87,6 @@ public:
                          '[]'
                      ) as genres,
 
-                    m.rating,
                     s.director,
                     s.seasons
                 FROM media m
@@ -187,6 +193,9 @@ private:
                 series_row["description"].as<std::string>(""),
                 series_row["cover_url"].as<std::string>(""),
                 Genre::mapGenreRow(series_row),
+                series_row["release_date"].as<std::string>(""),
+                series_row["created_at"].as<std::string>(""),
+                series_row["updated_at"].as<std::string>(""),
                 series_row["rating"].as<double>(-1)
             },
             series_row["director"].as<std::string>(""),
