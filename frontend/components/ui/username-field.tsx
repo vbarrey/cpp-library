@@ -43,11 +43,7 @@ export function UsernameField() {
             )}`
           );
 
-        const result =
-          await response.json();
-
-
-          console.log("result =>", result);
+        const result = await response.json();
         if (result.available) {
           setStatus("available");
         } else {

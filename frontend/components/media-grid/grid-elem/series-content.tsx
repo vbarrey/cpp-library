@@ -1,33 +1,33 @@
 "use client";
 
-import { Movie } from "@/lib/api";
+import { Series } from "@/lib/api";
 import { motion } from "motion/react";
 import { GenresList } from "./genres-list";
 import { cn } from "@/lib/utils";
 import { Rating } from "./rating";
 
 type Props = {
-    movie: Movie,
+    series: Series,
     expanded: boolean,
 }
 
-export function MovieContent({ movie, expanded }: Props) {
+export function SeriesContent({ series, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
-            
+
             <div className="flex flex-row items-baseline gap-2">
                 <h2 className={cn("font-bold truncate", expanded ? "text-5xl" : "text-base")}>
-                    {movie.title}
+                    {series.title}
                 </h2>
 
-                <Rating rating={movie.rating} />
+                <Rating rating={series.rating} />
             </div>
 
             <p className={cn("text-sm text-muted-foreground", expanded ? "text-lg" : "text-sm")}>
-                {movie.director}
+                {series.director}
             </p>
-            
-            <GenresList genres={movie.genres} mediaId={movie.id} />
+
+            <GenresList genres={series.genres} mediaId={series.id} />
 
             {expanded && (
 
@@ -48,11 +48,15 @@ export function MovieContent({ movie, expanded }: Props) {
                 >
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {movie.description}
+                        {series.releaseDate}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {movie.duration_minutes} minutes
+                        {series.description}
+                    </p>
+
+                    <p className="mt-4 text-sm leading-relaxed">
+                        {series.seasons} saisons
                     </p>
                 </motion.div>
             )}

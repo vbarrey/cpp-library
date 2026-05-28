@@ -1,4 +1,4 @@
-import { Media } from "@/lib/api";
+import { Movie } from "@/graphql/generated/graphql";
 import { GridItemLayout } from "./layout";
 
 type Cell = {
@@ -6,7 +6,7 @@ type Cell = {
 };
 
 export function computeLayout(
-    medias: Media[],
+    medias: Movie[],
     expandedId: string | null,
     gridCols: number,
 ): GridItemLayout[] {

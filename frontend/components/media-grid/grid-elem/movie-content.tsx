@@ -1,33 +1,33 @@
 "use client";
 
-import { Game } from "@/lib/api";
+import { Movie } from "@/lib/api";
 import { motion } from "motion/react";
 import { GenresList } from "./genres-list";
-import { Rating } from "./rating";
 import { cn } from "@/lib/utils";
+import { Rating } from "./rating";
 
 type Props = {
-    game: Game,
+    movie: Movie,
     expanded: boolean,
 }
 
-export function GameContent({ game, expanded }: Props) {
+export function MovieContent({ movie, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
             
-            <div>
+            <div className="flex flex-row items-baseline gap-2">
                 <h2 className={cn("font-bold truncate", expanded ? "text-5xl" : "text-base")}>
-                    {game.title}
+                    {movie.title}
                 </h2>
 
-                <Rating rating={game.rating} />
+                <Rating rating={movie.rating} />
             </div>
 
             <p className={cn("text-sm text-muted-foreground", expanded ? "text-lg" : "text-sm")}>
-                {game.developer}
+                {movie.director}
             </p>
             
-            <GenresList genres={game.genres} mediaId={game.id} />
+            <GenresList genres={movie.genres} mediaId={movie.id} />
 
             {expanded && (
 
@@ -46,17 +46,16 @@ export function GameContent({ game, expanded }: Props) {
                         delay: 0.2,
                     }}
                 >
-
                     <p className="mt-4 text-sm leading-relaxed">
-                        {game.description}
+                        {movie.releaseDate}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {game.platform}
+                        {movie.description}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {game.multiplayer ? "Multiplayer" : "Single player"}
+                        {movie.durationMinutes} minutes
                     </p>
                 </motion.div>
             )}

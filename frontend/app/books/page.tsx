@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { fetchBooks } from "@/lib/api"
-import MediaGrid from "@/components/media/media-grid"
+import MediaGrid from "@/components/media-grid/media-grid"
 
 export default async function BooksPage({
   searchParams,

@@ -1,22 +1,43 @@
-import { fetchMovies } from "@/lib/api"
-import MediaGrid from "@/components/media/media-grid"
+"use client"
+
+import { useQuery } from "urql"
+import { useSearchParams } from "next/navigation"
+
+import {
+  GetMoviesDocument
+} from "@/graphql/generated/graphql"
+
+import MediaGrid from "@/components/media-grid/media-grid"
 import Link from "next/link"
 
-export default async function MoviesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>
-}) {
-  const params = await searchParams
-  const page = Number(params.page || "1")
+export default function MoviesPage() {
+  const searchParams = useSearchParams();
 
-  const result = await fetchMovies(page);
+    const page = parseInt(
+        searchParams.get("page") || "1"
+    );
 
-  const totalPages = Math.ceil(result.total / result.limit)
+    const [result] = useQuery({
+        query: GetMoviesDocument,
+
+        variables: {
+            page
+        }
+    });
+
+    const { data, fetching, error } = result;
+
+    const totalPages = data && data.movies ? Math.ceil(
+      data.movies.total /
+      data.movies.limit
+    ) : 0;
   return (
     <main className="p-6">
       <h1 className="text-xl font-bold mb-4">Films</h1>
-      <MediaGrid medias={result.data} />
+
+      { fetching && <div>Loading...</div> }
+      { error && <div>{error.message}</div> }
+      { !fetching && !error && <MediaGrid medias={data?.movies.data || []} /> }
 
       {/* Pagination */}
       <div className="flex gap-2 mt-6">

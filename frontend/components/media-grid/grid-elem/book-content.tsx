@@ -1,33 +1,33 @@
 "use client";
 
-import { Series } from "@/lib/api";
+import { Book } from "@/lib/api";
 import { motion } from "motion/react";
 import { GenresList } from "./genres-list";
-import { cn } from "@/lib/utils";
 import { Rating } from "./rating";
+import { cn } from "@/lib/utils";
 
 type Props = {
-    series: Series,
+    book: Book,
     expanded: boolean,
 }
 
-export function SeriesContent({ series, expanded }: Props) {
+export function BookContent({ book, expanded }: Props) {
     return (
         <div className="min-w-0 flex-1 p-4">
-
+            
             <div className="flex flex-row items-baseline gap-2">
                 <h2 className={cn("font-bold truncate", expanded ? "text-5xl" : "text-base")}>
-                    {series.title}
+                    {book.title}
                 </h2>
 
-                <Rating rating={series.rating} />
+                <Rating rating={book.rating} />
             </div>
 
             <p className={cn("text-sm text-muted-foreground", expanded ? "text-lg" : "text-sm")}>
-                {series.director}
+                {book.author}
             </p>
 
-            <GenresList genres={series.genres} mediaId={series.id} />
+            <GenresList genres={book.genres} mediaId={book.id} />
 
             {expanded && (
 
@@ -46,13 +46,16 @@ export function SeriesContent({ series, expanded }: Props) {
                         delay: 0.2,
                     }}
                 >
-
                     <p className="mt-4 text-sm leading-relaxed">
-                        {series.description}
+                        {book.releaseDate}
                     </p>
 
                     <p className="mt-4 text-sm leading-relaxed">
-                        {series.seasons} saisons
+                        {book.description}
+                    </p>
+
+                    <p className="mt-4 text-sm leading-relaxed">
+                        {book.pageCount} pages
                     </p>
                 </motion.div>
             )}

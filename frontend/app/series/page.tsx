@@ -1,5 +1,5 @@
 import { fetchSeries } from "@/lib/api"
-import MediaGrid from "@/components/media/media-grid"
+import MediaGrid from "@/components/media-grid/media-grid"
 import Link from "next/link"
 
 export default async function SeriesPage({

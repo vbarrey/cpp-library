@@ -1,4 +1,4 @@
-import MediaGrid from "@/components/media/media-grid"
+import MediaGrid from "@/components/media-grid/media-grid"
 import { fetchGames } from "@/lib/api"
 import { Link } from "lucide-react"
 
