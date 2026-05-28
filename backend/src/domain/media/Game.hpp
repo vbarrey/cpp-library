@@ -23,9 +23,9 @@ inline void to_json(nlohmann::json& j, const Game& g) {
         {"developer", g.developer},
         {"platform", g.platform},
         {"multiplayer", g.multiplayer},
-        {"release_date", g.media.release_date},
-        {"created_at", g.media.created_at},
-        {"updated_at", g.media.updated_at}
+        {"releaseDate", g.media.releaseDate},
+        {"createdAt", g.media.createdAt},
+        {"updatedAt", g.media. updatedAt}
     };
 }
 
@@ -39,7 +39,7 @@ inline void from_json(const nlohmann::json& j, Game& g) {
     j.at("developer").get_to(g.developer);
     j.at("platform").get_to(g.platform);
     j.at("multiplayer").get_to(g.multiplayer);
-    j.at("release_date").get_to(g.media.release_date);
-    j.at("created_at").get_to(g.media.created_at);
-    j.at("updated_at").get_to(g.media.updated_at);
+    j.at("releaseDate").get_to(g.media.releaseDate);
+    j.at("createdAt").get_to(g.media.createdAt);
+    j.at("updatedAt").get_to(g.media. updatedAt);
 }

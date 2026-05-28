@@ -20,10 +20,10 @@ inline void to_json(nlohmann::json& j, const Movie& m) {
         {"rating", m.media.rating},
         {"type", "MOVIE"},
         {"director", m.director},
-        {"duration_minutes", m.durationMinutes},
-        {"release_date", m.media.release_date},
-        {"created_at", m.media.created_at},
-        {"updated_at", m.media.updated_at}
+        {"durationMinutes", m.durationMinutes},
+        {"releaseDate", m.media.releaseDate},
+        {"createdAt", m.media.createdAt},
+        {"updatedAt", m.media. updatedAt}
     };
 }
 
@@ -35,8 +35,8 @@ inline void from_json(const nlohmann::json& j, Movie& m) {
     j.at("rating").get_to(m.media.rating);
     j.at("type").get_to(m.media.type);
     j.at("director").get_to(m.director);
-    j.at("duration_minutes").get_to(m.durationMinutes);
-    j.at("release_date").get_to(m.media.release_date);
-    j.at("created_at").get_to(m.media.created_at);
-    j.at("updated_at").get_to(m.media.updated_at);
+    j.at("durationMinutes").get_to(m.durationMinutes);
+    j.at("releaseDate").get_to(m.media.releaseDate);
+    j.at("createdAt").get_to(m.media.createdAt);
+    j.at("updatedAt").get_to(m.media. updatedAt);
 }

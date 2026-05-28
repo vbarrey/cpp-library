@@ -26,18 +26,19 @@ export type Media = {
   coverUrl: string,
   genres: Genre[],
   rating: number,
+  releaseDate: string
 }
 
 export type Book = Media & {
   author: string
   isbn: string,
-  page_count: number,
+  pageCount: number,
   publisher: string,
 }
 
 export type Movie = Media & {
   director: string
-  duration_minutes: number
+  durationMinutes: number
 }
 
 export type Game = Media & {
@@ -58,7 +59,7 @@ export type Paginated<T> = {
   limit: number
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = process.env.BACKEND_API_URL
 
 export async function fetchBooks(page: number = 1, limit: number = 84): Promise<Paginated<Book>> {
   const res = await fetch(`${API_URL}/books?page=${page}&limit=${limit}`, { cache: "no-store" });

@@ -21,9 +21,9 @@ inline void to_json(nlohmann::json& j, const Series& s) {
         {"type", "SERIES"},
         {"director", s.director},
         {"seasons", s.seasons},
-        {"release_date", s.media.release_date},
-        {"created_at", s.media.created_at},
-        {"updated_at", s.media.updated_at}
+        {"releaseDate", s.media.releaseDate},
+        {"createdAt", s.media.createdAt},
+        {"updatedAt", s.media. updatedAt}
     };
 }
 
@@ -36,7 +36,7 @@ inline void from_json(const nlohmann::json& j, Series& s) {
     j.at("type").get_to(s.media.type);
     j.at("director").get_to(s.director);
     j.at("seasons").get_to(s.seasons);
-    j.at("release_date").get_to(s.media.release_date);
-    j.at("created_at").get_to(s.media.created_at);
-    j.at("updated_at").get_to(s.media.updated_at);
+    j.at("releaseDate").get_to(s.media.releaseDate);
+    j.at("createdAt").get_to(s.media.createdAt);
+    j.at("updatedAt").get_to(s.media. updatedAt);
 }

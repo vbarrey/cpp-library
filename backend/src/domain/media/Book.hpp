@@ -22,11 +22,11 @@ inline void to_json(nlohmann::json& j, const Book& b) {
         {"type", "BOOK"},
         {"author", b.author},
         {"isbn", b.isbn},
-        {"page_count", b.pageCount},
+        {"pageCount", b.pageCount},
         {"publisher", b.publisher},
-        {"release_date", b.media.release_date},
-        {"created_at", b.media.created_at},
-        {"updated_at", b.media.updated_at}
+        {"releaseDate", b.media.releaseDate},
+        {"createdAt", b.media.createdAt},
+        {"updatedAt", b.media.updatedAt}
     };
 }
 
@@ -39,9 +39,9 @@ inline void from_json(const nlohmann::json& j, Book& b) {
     j.at("type").get_to(b.media.type);
     j.at("author").get_to(b.author);
     j.at("isbn").get_to(b.isbn);
-    j.at("page_count").get_to(b.pageCount);
+    j.at("pageCount").get_to(b.pageCount);
     j.at("publisher").get_to(b.publisher);
-    j.at("release_date").get_to(b.media.release_date);
-    j.at("created_at").get_to(b.media.created_at);
-    j.at("updated_at").get_to(b.media.updated_at);
+    j.at("releaseDate").get_to(b.media.releaseDate);
+    j.at("createdAt").get_to(b.media.createdAt);
+    j.at("updatedAt").get_to(b.media.updatedAt);
 }
