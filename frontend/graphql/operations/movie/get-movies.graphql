@@ -1,0 +1,20 @@
+query GetMovies($page: Int!) {
+    movies(page: $page) {
+        data {
+            id
+            title
+            coverUrl
+            type
+            rating
+            releaseDate
+            description
+
+            director
+            durationMinutes
+        }
+
+        total
+        page
+        limit
+    }
+}
